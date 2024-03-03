@@ -3,11 +3,10 @@ package com.route.todo_app_c39_gsat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.route.todo_app_c39_gsat.databinding.ActivityHome2Binding
 import com.route.todo_app_c39_gsat.databinding.ActivityHomeBinding
-import com.route.todo_app_c39_gsat.fragments.AddTaskBottomSheet
+import com.route.todo_app_c39_gsat.fragments.addTask.AddTaskBottomSheet
 import com.route.todo_app_c39_gsat.fragments.SettingsFragment
-import com.route.todo_app_c39_gsat.fragments.TasksListFragment
+import com.route.todo_app_c39_gsat.fragments.tasks.TasksListFragment
 
 class HomeActivity : AppCompatActivity() {
 

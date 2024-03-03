@@ -1,4 +1,4 @@
-package com.route.todo_app_c39_gsat.fragments
+package com.route.todo_app_c39_gsat.fragments.tasks
 
 import android.os.Bundle
 import android.util.Log
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.route.todo_app_c39_gsat.adapters.TasksAdapter
 import com.route.todo_app_c39_gsat.database.TaskDatabase
 import com.route.todo_app_c39_gsat.databinding.FragmentTasksBinding
@@ -15,12 +16,14 @@ class TasksListFragment : Fragment() {
     lateinit var binding: FragmentTasksBinding
     lateinit var adapter: TasksAdapter
     lateinit var calendar: Calendar
+    lateinit var viewModel: TasksListViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTasksBinding.inflate(inflater)
+        viewModel = ViewModelProvider(this)[TasksListViewModel::class.java]
         return binding.root
     }
 
@@ -42,11 +45,16 @@ class TasksListFragment : Fragment() {
             Log.e("TAG", "onViewCreated: CALENDAR LIBRARY DATE ${date.month}")
             Log.e("TAG", "onViewCreated: Calendar ${calendar.get(Calendar.MONTH)}")
             calendar.set(Calendar.DAY_OF_MONTH, date.day)
-            val tasks = TaskDatabase
-                .getInstance(requireContext())
-                .getTasksDao()
-                .getTasksByDate(calendar.time)
+            viewModel.getTasksByDate(calendar)
+            subscribeToLiveData()
+
+        }
+    }
+
+    fun subscribeToLiveData() {
+        viewModel.tasksLiveData.observe(viewLifecycleOwner) { tasks ->
             adapter.updateData(tasks)
         }
+
     }
 }
