@@ -9,6 +9,8 @@ import com.route.todo_app_c39_gsat.fragments.SettingsFragment
 import com.route.todo_app_c39_gsat.fragments.tasks.TasksListFragment
 
 class HomeActivity : AppCompatActivity() {
+    // MVVM <-> News App - To Do Application
+    // Data Binding & Binding Adapters
 
     // DiffUtil
     //RecyclerView With multiple view Holders

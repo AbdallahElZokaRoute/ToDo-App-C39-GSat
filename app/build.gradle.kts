@@ -9,6 +9,7 @@ android {
     compileSdk = 34
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
     defaultConfig {
         applicationId = "com.route.todo_app_c39_gsat"

@@ -8,18 +8,20 @@ import java.util.Calendar
 
 class AddTaskViewModel : ViewModel() {
     lateinit var calendar: Calendar
+    val title = MutableLiveData("")
     val titleError = MutableLiveData<String?>()
+    val description = MutableLiveData("")
     val descriptionError = MutableLiveData<String?>()
     val isDone = MutableLiveData(false)
 
 
-    private fun validateFields(title: String, description: String): Boolean {
-        if (title.isEmpty() || title.isBlank()) {
+    private fun validateFields(): Boolean {
+        if (title.value?.isEmpty() == true || title.value?.isBlank() == true) {
             titleError.value = "Required"
             return false
         } else
             titleError.value = null
-        if (description.isEmpty() || description.isBlank()) {
+        if (description.value?.isEmpty() == true || description.value?.isBlank() == true) {
             descriptionError.value = "Required"
             return false
         } else
@@ -28,8 +30,8 @@ class AddTaskViewModel : ViewModel() {
         return true
     }
 
-    fun addTask(title: String, description: String) {
-        if (validateFields(title, description)) {
+    fun addTask() {
+        if (validateFields()) {
             calendar.set(Calendar.HOUR_OF_DAY, 0)
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
@@ -39,8 +41,8 @@ class AddTaskViewModel : ViewModel() {
                 .getTasksDao()
                 .insertTask(
                     Task(
-                        title = title,
-                        description = description,
+                        title = title.value,
+                        description = description.value,
                         date = calendar.time,
                         isDone = false
                     )

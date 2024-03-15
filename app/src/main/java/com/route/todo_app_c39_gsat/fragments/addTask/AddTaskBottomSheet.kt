@@ -5,6 +5,7 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,14 +30,13 @@ class AddTaskBottomSheet : BottomSheetDialogFragment() {
     ): View? {
         binding = FragmentAddTaskBinding.inflate(inflater)
         viewModel = ViewModelProvider(this)[AddTaskViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.addTaskBtn.setOnClickListener {
-
-        }
         viewModel.calendar = Calendar.getInstance()
         binding.selectTimeTv.setOnClickListener {
             val picker = TimePickerDialog(
@@ -77,7 +77,21 @@ class AddTaskBottomSheet : BottomSheetDialogFragment() {
 
             picker.show()
         }
+        subscribeToLiveData()
+    }
 
+    private fun subscribeToLiveData() {
+        viewModel.title.observe(viewLifecycleOwner) { title ->
+            Log.e("TAG", "subscribeToLiveData:  $title")
+        }
+        viewModel.description.observe(viewLifecycleOwner) { title ->
+            Log.e("TAG", "subscribeToLiveData:  $title")
+        }
+        viewModel.isDone.observe(viewLifecycleOwner) {
+            if (it) {
+                dismiss()
+            }
+        }
     }
 
 }

@@ -47,7 +47,7 @@ class TasksListFragment : Fragment() {
             calendar.set(Calendar.DAY_OF_MONTH, date.day)
             viewModel.getTasksByDate(calendar)
             subscribeToLiveData()
-
+            // Data Binding
         }
     }
 
